@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/users")
@@ -34,10 +35,10 @@ public class UserController {
 
     @GetMapping("/email")
     public User getByEmail(@RequestParam String email) {
-        User user = userService.getByEmail(email);
+        Optional<User> user = userService.getByEmail(email);
         if(user == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        return user;
+        return user.get();
     }
     @PostMapping
     public User create(User user) {
